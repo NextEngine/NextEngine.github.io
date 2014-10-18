@@ -1,0 +1,168 @@
+body {
+    font-family: serif;
+    font-size: 16px;
+    margin: 5% 5% 5% 5%;
+    box-shadow: 0 1px 5px grey;
+    /* box-shadow: 0 1px 5px #696969; */
+    /* text-shadow: 0 1px 1px white; */
+    padding: 2% 5% 5% 5%;
+    /* width: 72%; */
+    width: 720px;
+    line-height: 150%;
+    /* border: 1px solid LightGrey; */
+}
+
+H1 {
+    font-family: sans-serif;
+}
+
+H2 {
+    font-family: sans-serif;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    /* padding: 1px; */
+    width: 100%;
+    line-height: 100%;
+    color: Black;
+    /* border-bottom: 1px dashed; */
+}
+
+
+H3 {
+    font-family: sans-serif;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    /* border-bottom: 1px dashed; */
+    width: 100%;
+    line-height: 100%;
+    color: Black;
+}
+
+
+H4 {
+    font-family: sans-serif;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    /* border-bottom: 1px dashed; */
+    width: 100%;
+    line-height: 100%;
+    color: Black;
+}
+
+H5 {
+    font-family: sans-serif;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    /* border-bottom: 1px dashed; */
+    width: 100%;
+    line-height: 100%;
+    color: Black;
+}
+
+.post-info {
+    color: #999;
+    margin-top: 0px;
+    font-size: 10px;
+    font-family: monospace;
+}
+
+li {
+    margin-left: 5px;
+}
+
+
+/* blockquote { */
+/*     border-left: 4px lightgrey solid; */
+/*     padding-left: 5px; */
+/*     margin-left: 20px; */
+/* } */
+
+
+/* pre { */
+/*     font-family: "Ubuntu Mono",monospace, Inconsolata, Consolas, "DEJA VU SANS MONO", "DROID SANS MONO", Proggy; */
+/*     font-size: 75%; */
+/*     border: solid 1px lightgrey; */
+/*     background-color: Ivory; */
+/*     padding: 5px; */
+/*     line-height: 130%; */
+/*     margin-left: 10px; */
+/*     width: 95%; */
+/* } */
+
+
+/* code { */
+/*     font-family: Inconsolata, Consolas, "DEJA VU SANS MONO", "DROID SANS MONO", Proggy, monospace; */
+/*     font-size: 90%; */
+/* } */
+
+
+a {
+    text-decoration: none;
+    /* cursor: help; */
+    /* border-bottom: 1px dashed Red; */
+    /* padding: 1px; */
+    color: default;
+}
+
+
+a:hover {
+    background-color: LightGrey;
+}
+
+img {
+    display: block;
+    box-shadow: 0 0 2px grey;
+    /* border-radius: 6px; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /* -webkit-box-shadow: 0 0 10px #555; */
+}
+
+/* hr { */
+/*     color: LightGrey; */
+/* } */
+
+/* .footer { */
+/*     text-align: center; */
+/*     font-size: 100%; */
+/*     color: red; */
+/*     border-top: 4px solid #eee; */
+/*     margin-top: 2em; */
+/*   overflow: hidden; */
+/* } */
+
+/* .footer .contact { */
+/*   float: left; */
+/*   margin-right: 3em; */
+/* } */
+
+/* .footer .contact a { */
+/*   color: #8085C1; */
+/* } */
+
+/* .footer .rss { */
+/*   margin-top: 1.1em; */
+/*   margin-right: -.2em; */
+/*   float: right; */
+/* } */
+
+/* .footer .rss img { */
+/*   border: 0; */
+/* } */
+
+/* ::selection { */
+/*     background: #9EA1A5; */
+/*     color: #fff; */
+/*     text-shadow: none; */
+/* } */
+
+/* @media (max-width: 979px) { */
+/*   body { */
+/*   padding: 100px; */
+/*   margin-left: 0px; */
+/*   margin-right: 0px; */
+/*   width: 60%; */
+/*   } */
+/* } */

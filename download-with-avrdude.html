@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>使用avrdude下载程序到Arduino UNO</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="使用avrdude下载程序到Arduino UNO"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-10-18T17:51+0800"/>
+<meta name="author" content="Zhang ZhiDong"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+<div id="org-div-home-and-up" style="text-align:right;font-size:70%;white-space:nowrap;">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">使用avrdude下载程序到Arduino UNO</h1>
+
+<p>练习了《Arduino Internals》一书第二章“Semiautomatic”一节中关于使用
+avrdude给Arduino UNO烧写程序的例子。结果失败了！
+</p>
+<p>
+搜索了很多资料，没有直接解决的方法，但也受到一些启发。
+</p>
+<p>
+书中给出的命令是:
+</p>
+
+
+<pre class="example">avrdude -p atmega328p -c stk500v1 -P \\.\COMM11 -U flash:w:blink.hex:i
+</pre>
+
+<p>
+上面的命令适用于windows操作系统。由于我使用Linux，因此做了相应的更改，命
+令如下：
+</p>
+
+
+<pre class="example">avrdude -p atmega328p -c stk500v1 -P /dev/ttyACM0 -U flash:w:blink.hex:i
+</pre>
+
+<p>
+Bash给出的错误信息是：
+</p>
+
+
+<pre class="example">avrdude: AVR device initialized and ready to accept instructions
+
+Reading | ################################################## | 100% 0.01s
+
+avrdude: Device signature = 0x000000 (retrying)
+
+Reading | ################################################## | 100% 0.01s
+
+avrdude: Device signature = 0x000000 (retrying)
+
+Reading | ################################################## | 100% 0.01s
+
+avrdude: Device signature = 0x000000
+avrdude: Yikes!  Invalid device signature.
+         Double check connections and try again, or use -F to override
+         this check.
+
+
+avrdude done.  Thank you.
+</pre>
+
+<p>
+可以看到，具体原因是“Invalid device signature”。网络上对于产生这个错误
+的解释有两种，一种认为是<a href="https://code.google.com/p/mega-isp/issues/detail?id=29">晶振坏了</a>； 另一种认为是<a href="http://forum.arduino.cc/index.php/topic,25385.0.html">频率不同步</a>。 我更愿意相信
+后者，因为使用Arduino IDE可以正常烧写程序，晶振怎么可能坏？
+</p>
+<p>
+第二种解释给出的解决办法是在命令中加入"-B delay"选项，使写入速度变慢一些。
+试过之后还是失败！
+</p>
+<p>
+既然使用Arduino IDE可以正常烧写程序，并且，实际上Arduino IDE也是调用
+avrdude来完成烧写工作的，那么如果我能找到它的调用参数，说不定可以解决上
+面的问题。
+</p>
+<p>
+于是找来一个例子中的程序，编译并上传，一切都很顺利。然后在一堆输出信息中
+寻找我感兴趣的内容，终于被我找到了。
+</p>
+<p>
+在编译工作完成之后，Arduino IDE执行了如下的烧写命令：
+</p>
+
+
+<pre class="example">/usr/share/arduino/hardware/tools/avrdude
+-C /usr/share/arduino/hardware/tools/avrdude.conf -v -v -v -v
+-p atmega328p -c arduino -P /dev/ttyACM0 -b115200 -D
+-U flash:w:/tmp/build6189231542690926839.tmp/Blink.cpp.hex:i
+</pre>
+
+
+<p>
+照葫芦画瓢，我把原来的命令改成：
+</p>
+
+
+<pre class="example">avrdude -p atmega328p -c arduino -P /dev/ttyACM0 -b 115200 -D -U
+flash:w:blink.hex:i
+</pre>
+
+<p>
+终于烧写成功！
+</p>
+
+
+<pre class="example">avrdude: AVR device initialized and ready to accept instructions
+
+Reading | ################################################## | 100% 0.00s
+
+avrdude: Device signature = 0x1e950f
+avrdude: reading input file "blink.hex"
+avrdude: writing flash (282 bytes):
+
+Writing | ################################################## | 100% 0.06s
+
+avrdude: 282 bytes of flash written
+avrdude: verifying flash memory against blink.hex:
+avrdude: load data flash data from input file blink.hex:
+avrdude: input file blink.hex contains 282 bytes
+avrdude: reading on-chip flash data:
+
+Reading | ################################################## | 100% 0.05s
+
+avrdude: verifying ...
+avrdude: 282 bytes of flash verified
+
+avrdude: safemode: Fuses OK (E:00, H:00, L:00)
+
+avrdude done.  Thank you.
+</pre>
+
+<p>
+命令中各项参数的具体含义请“man avrdude”自行解决。上面这条命令通过“-b
+115200”指定了烧写程序的频率。
+</p></div>
+
+<div id="postamble">
+Update time: 2014-10-18T17:51+0800.
+</div>
+</body>
+</html>
